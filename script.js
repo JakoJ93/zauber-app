@@ -94,6 +94,7 @@ card.addEventListener('touchstart', (e) => {
     if (currentState !== 3 || !state3.classList.contains('show-card')) return;
     
     isDragging = true;
+    card.classList.add('dragging');
     startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
     
@@ -109,8 +110,6 @@ card.addEventListener('touchstart', (e) => {
             initialTranslateY = parseFloat(match[2]);
         }
     }
-    
-    card.style.transition = 'none'; // Disable transition during drag
 });
 
 card.addEventListener('touchmove', (e) => {
@@ -122,20 +121,21 @@ card.addEventListener('touchmove', (e) => {
     const diffX = currentX - startX;
     const diffY = currentY - startY;
     
-    card.style.transform = `translate(${initialTranslateX + diffX}px, ${initialTranslateY + diffY}px) rotate(-5deg)`;
+    // Add a slight scale effect while dragging for tactile feedback
+    card.style.transform = `translate(${initialTranslateX + diffX}px, ${initialTranslateY + diffY}px) rotate(-5deg) scale(1.05)`;
 });
 
 card.addEventListener('touchend', (e) => {
     if (!isDragging) return;
     isDragging = false;
-    card.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+    card.classList.remove('dragging');
     
     const endX = e.changedTouches[0].clientX;
     const endY = e.changedTouches[0].clientY;
     
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
-    const threshold = 30; // pixels from edge to consider "pulled out"
+    const threshold = 10; // pixels from edge to consider "pulled out"
     
     if (endX < threshold || endX > screenWidth - threshold || endY < threshold || endY > screenHeight - threshold) {
         // Pulled out of the phone
@@ -143,13 +143,13 @@ card.addEventListener('touchend', (e) => {
         setTimeout(cleanupAndRedirect, 300);
     } else {
         // Snap back to center
-        card.style.transform = `translate(0px, 0px) rotate(-5deg)`;
+        card.style.transform = `translate(0px, 0px) rotate(-5deg) scale(1)`;
     }
 });
 
 function cleanupAndRedirect() {
     // Redirect to real Google Image Search
-    window.location.replace("https://www.google.com/search?q=Herz+8&tbm=isch");
+    window.location.replace("https://www.google.com/search?q=Spielkarte&tbm=isch");
 }
 
 // Register Service Worker for PWA / offline support
