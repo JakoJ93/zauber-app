@@ -36,9 +36,11 @@ body, html {
 
 /* --- STATE 1: Fake Google Suche --- */
 #state1-google {
-    display: flex;
-    flex-direction: column;
+    display: block;
     z-index: 1;
+    overflow-y: auto;
+    height: 100%;
+    -webkit-overflow-scrolling: touch;
 }
 
 header {
@@ -152,8 +154,6 @@ header {
     display: flex;
     gap: 4px;
     padding: 4px;
-    flex: 1;
-    overflow-y: auto;
 }
 
 .masonry-column {
