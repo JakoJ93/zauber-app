@@ -1,11 +1,11 @@
-const CACHE_NAME = 'herz-8-v2';
+const CACHE_NAME = 'spielkarte-v1';
 const urlsToCache = [
   './',
   './index.html',
   './style.css',
   './script.js',
   './manifest.json',
-  './folded_card.png'
+  './folded_card_new.png'
 ];
 
 self.addEventListener('install', event => {
