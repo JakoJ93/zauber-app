@@ -1,0 +1,20 @@
+{
+  "name": "Herz 8",
+  "short_name": "Herz 8",
+  "start_url": ".",
+  "display": "fullscreen",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='192' height='192'><rect width='192' height='192' fill='%23ffffff'/><text x='96' y='96' font-family='sans-serif' font-size='48' text-anchor='middle' dominant-baseline='middle' fill='%23000'>8♥</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='512' height='512'><rect width='512' height='512' fill='%23ffffff'/><text x='256' y='256' font-family='sans-serif' font-size='128' text-anchor='middle' dominant-baseline='middle' fill='%23000'>8♥</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

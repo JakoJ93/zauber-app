@@ -1,0 +1,232 @@
+/* Resets and Base Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    overflow-x: hidden;
+    background-color: #ffffff;
+    /* Prevent pull-to-refresh on mobile */
+    overscroll-behavior-y: none;
+}
+
+.state {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* --- STATE 1: Fake Google Suche --- */
+#state1-google {
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+}
+
+header {
+    border-bottom: 1px solid #dfe1e5;
+    padding: 10px 15px 0 15px;
+    background: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.hamburger {
+    font-size: 24px;
+    color: #5f6368;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: 500;
+    letter-spacing: -0.5px;
+}
+
+.profile-pic-container {
+    position: relative;
+    width: 32px;
+    height: 32px;
+}
+
+.profile-pic {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #9c27b0;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* TRIGGER STATE 2: Invisible area over profile pic */
+.invisible-trigger {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    width: 60px;
+    height: 60px;
+    background: transparent;
+    z-index: 100;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    border: 1px solid #dfe1e5;
+    border-radius: 24px;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 1px 6px rgba(32,33,36,.28);
+}
+
+.search-icon, .mic-icon, .lens-icon {
+    font-size: 18px;
+    color: #9aa0a6;
+}
+
+.search-bar input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    margin: 0 10px;
+    color: #202124;
+}
+
+.tabs {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scrollbar-width: none; /* Firefox */
+}
+.tabs::-webkit-scrollbar {
+    display: none; /* Chrome */
+}
+
+.tab {
+    padding-bottom: 12px;
+    font-size: 14px;
+    color: #5f6368;
+    white-space: nowrap;
+}
+
+.tab.active {
+    color: #1a73e8;
+    border-bottom: 3px solid #1a73e8;
+    font-weight: 500;
+}
+
+.image-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    padding: 2px 0;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.image-placeholder {
+    background-color: #f1f3f4;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #bdc1c6;
+    font-size: 14px;
+}
+
+/* --- STATE 2: Fake Lockscreen (Black) --- */
+#state2-lockscreen {
+    background-color: #000;
+    z-index: 50;
+    transition: opacity 0.3s ease;
+}
+
+/* --- STATE 3: Glitch & Production --- */
+#state3-production {
+    z-index: 100;
+}
+
+#glitch-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    pointer-events: none;
+}
+
+/* Keyframes for glitch */
+@keyframes glitch-anim {
+    0% { filter: invert(0) contrast(1); transform: translate(0, 0); }
+    10% { filter: invert(1) contrast(2); transform: translate(-5px, 5px); }
+    20% { filter: invert(0) contrast(1); transform: translate(5px, -5px); }
+    30% { filter: invert(0) contrast(2) hue-rotate(90deg); transform: translate(-2px, 2px); }
+    40% { filter: invert(0) contrast(1); transform: translate(0, 0); }
+    100% { filter: invert(0) contrast(1); transform: translate(0, 0); }
+}
+
+.glitch-active #glitch-overlay {
+    background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.1) 2px, rgba(255,255,255,0.1) 4px);
+    animation: glitch-anim 0.3s steps(2, end);
+}
+
+#folded-card-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.1s;
+}
+
+/* Show the card after the glitch */
+.show-card #folded-card-container {
+    opacity: 1;
+}
+
+#folded-card {
+    width: 160px;
+    height: 160px;
+    background-image: url('folded_card.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    transform: rotate(-5deg);
+    filter: drop-shadow(0 15px 25px rgba(0,0,0,0.9));
+}

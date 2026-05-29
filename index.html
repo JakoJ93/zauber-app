@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Herz 8 - Google Suche</title>
+    <meta name="theme-color" content="#ffffff">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- STATE 1: Fake Google Image Search -->
+    <div id="state1-google" class="state active">
+        <!-- Header -->
+        <header>
+            <div class="top-row">
+                <div class="hamburger">☰</div>
+                <div class="logo">
+                    <span style="color:#4285F4">G</span><span style="color:#EA4335">o</span><span style="color:#FBBC05">o</span><span style="color:#4285F4">g</span><span style="color:#34A853">l</span><span style="color:#EA4335">e</span>
+                </div>
+                <div class="profile-pic-container">
+                    <!-- The invisible trigger area over the profile picture -->
+                    <div id="trigger-state2" class="invisible-trigger"></div>
+                    <div class="profile-pic">J</div>
+                </div>
+            </div>
+            <div class="search-bar">
+                <span class="search-icon">🔍</span>
+                <input type="text" value="Herz 8" readonly>
+                <span class="mic-icon">🎤</span>
+                <span class="lens-icon">📷</span>
+            </div>
+            <div class="tabs">
+                <div class="tab active">Bilder</div>
+                <div class="tab">Alle</div>
+                <div class="tab">Shopping</div>
+                <div class="tab">News</div>
+                <div class="tab">Videos</div>
+            </div>
+        </header>
+
+        <!-- Image Grid -->
+        <main class="image-grid">
+            <div class="image-placeholder"><div class="placeholder-text">Herz 8</div></div>
+            <div class="image-placeholder"><div class="placeholder-text">Herz 8</div></div>
+            <div class="image-placeholder"><div class="placeholder-text">Herz 8</div></div>
+            <div class="image-placeholder"><div class="placeholder-text">Herz 8</div></div>
+            <div class="image-placeholder"><div class="placeholder-text">Herz 8</div></div>
+            <div class="image-placeholder"><div class="placeholder-text">Herz 8</div></div>
+            <div class="image-placeholder"><div class="placeholder-text">Herz 8</div></div>
+            <div class="image-placeholder"><div class="placeholder-text">Herz 8</div></div>
+            <div class="image-placeholder"><div class="placeholder-text">Herz 8</div></div>
+            <div class="image-placeholder"><div class="placeholder-text">Herz 8</div></div>
+        </main>
+    </div>
+
+    <!-- STATE 2 & 3: Fake Lockscreen and Hack/Production -->
+    <!-- The overlay is initially hidden and pointer-events disabled -->
+    <div id="state2-lockscreen" class="state hidden">
+        <!-- Black background filling the screen -->
+    </div>
+
+    <!-- STATE 3: The Glitch & Folded Card -->
+    <div id="state3-production" class="state hidden">
+        <!-- Glitch effect container -->
+        <div id="glitch-overlay"></div>
+        <!-- Folded Card Image -->
+        <div id="folded-card-container">
+            <div id="folded-card">
+                <!-- Placeholder for folded card -->
+                <div class="card-back-pattern"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
