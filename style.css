@@ -172,15 +172,8 @@ header {
     background-position: center;
 }
 
-/* --- STATE 2: Fake Lockscreen (Black) --- */
-#state2-lockscreen {
-    background-color: #000;
-    z-index: 50;
-    transition: opacity 0.3s ease;
-}
-
-/* --- STATE 3: Glitch & Production --- */
-#state3-production {
+/* --- STATE 2: Glitch & Production --- */
+#state2-production {
     z-index: 100;
 }
 
@@ -230,7 +223,7 @@ header {
 #folded-card {
     width: 200px;
     height: 200px;
-    background-image: url('folded_card.png');
+    background-image: url('folded_card_new.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;

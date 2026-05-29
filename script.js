@@ -8,8 +8,7 @@ const CONFIG = {
 // DOM Elements
 const triggerState2 = document.getElementById('trigger-state2');
 const state1 = document.getElementById('state1-google');
-const state2 = document.getElementById('state2-lockscreen');
-const state3 = document.getElementById('state3-production');
+const state2 = document.getElementById('state2-production');
 const foldedCardContainer = document.getElementById('folded-card-container');
 
 // State tracking
@@ -46,52 +45,27 @@ function transitionToState2() {
     if (currentState !== 1) return;
     currentState = 2;
 
-    // Show black screen
+    // Show state 2 (Glitch & Card over state 1)
     state2.classList.remove('hidden');
     state2.classList.add('active');
     
-    // Hide state 1 after transition
-    setTimeout(() => {
-        state1.classList.remove('active');
-        state1.classList.add('hidden');
-    }, CONFIG.lockscreenTransitionMs);
-}
-
-// --- STATE 2 to STATE 3: Single Tap ---
-state2.addEventListener('touchstart', (e) => {
-    e.preventDefault();
-    if (currentState === 2) {
-        transitionToState3();
-    }
-});
-
-function transitionToState3() {
-    currentState = 3;
-    
-    // Hide pure black screen, activate state 3
-    state2.classList.remove('active');
-    state2.classList.add('hidden');
-    
-    state3.classList.remove('hidden');
-    state3.classList.add('active');
-    
-    // Trigger Glitch Animation
-    state3.classList.add('glitch-active');
+    // Trigger Glitch Animation on state 2 overlay
+    state2.classList.add('glitch-active');
     
     setTimeout(() => {
-        state3.classList.remove('glitch-active');
+        state2.classList.remove('glitch-active');
         // Show folded card
-        state3.classList.add('show-card');
+        state2.classList.add('show-card');
     }, CONFIG.glitchDurationMs);
 }
 
-// --- STATE 3 to CLEANUP: Drag & Drop ---
+// --- STATE 2 to CLEANUP: Drag & Drop ---
 let isDragging = false;
 let startX, startY, initialTranslateX, initialTranslateY;
 const card = document.getElementById('folded-card');
 
 card.addEventListener('touchstart', (e) => {
-    if (currentState !== 3 || !state3.classList.contains('show-card')) return;
+    if (currentState !== 2 || !state2.classList.contains('show-card')) return;
     
     isDragging = true;
     card.classList.add('dragging');
