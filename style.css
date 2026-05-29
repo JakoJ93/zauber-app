@@ -54,16 +54,11 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 15px;
-}
-
-.hamburger {
-    font-size: 24px;
-    color: #5f6368;
+    margin-bottom: 10px;
 }
 
 .logo {
-    font-size: 26px;
+    font-size: 24px;
     font-weight: 500;
     letter-spacing: -0.5px;
 }
@@ -101,22 +96,25 @@ header {
 .search-bar {
     display: flex;
     align-items: center;
-    border: 1px solid #dfe1e5;
+    background-color: #f1f3f4;
     border-radius: 24px;
     padding: 10px 15px;
-    margin-bottom: 15px;
-    box-shadow: 0 1px 6px rgba(32,33,36,.28);
+    margin-bottom: 12px;
 }
 
 .search-icon, .mic-icon, .lens-icon {
-    font-size: 18px;
-    color: #9aa0a6;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .search-bar input {
     flex: 1;
     border: none;
     outline: none;
+    background: transparent;
     font-size: 16px;
     margin: 0 10px;
     color: #202124;
@@ -124,44 +122,65 @@ header {
 
 .tabs {
     display: flex;
-    gap: 20px;
+    gap: 8px;
     overflow-x: auto;
     scrollbar-width: none; /* Firefox */
+    padding-bottom: 10px;
 }
 .tabs::-webkit-scrollbar {
     display: none; /* Chrome */
 }
 
 .tab {
-    padding-bottom: 12px;
+    padding: 8px 16px;
     font-size: 14px;
-    color: #5f6368;
+    color: #3c4043;
     white-space: nowrap;
+    background-color: #f1f3f4;
+    border-radius: 18px;
+    border: 1px solid transparent;
 }
 
 .tab.active {
     color: #1a73e8;
-    border-bottom: 3px solid #1a73e8;
+    background-color: #e8f0fe;
+    border-color: #1a73e8;
     font-weight: 500;
 }
 
 .image-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2px;
-    padding: 2px 0;
+    display: flex;
+    gap: 4px;
+    padding: 4px;
     flex: 1;
     overflow-y: auto;
 }
 
-.image-placeholder {
-    background-color: #f1f3f4;
-    aspect-ratio: 1;
+.masonry-column {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #bdc1c6;
-    font-size: 14px;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.image-item {
+    background-color: #f1f3f4;
+    border-radius: 12px;
+    background-image: radial-gradient(circle at 50% 50%, #ffcdd2 10%, #ffebee 50%, #f1f3f4 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.image-item::after {
+    content: "Herz 8";
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    font-size: 12px;
+    color: #5f6368;
+    background: rgba(255,255,255,0.8);
+    padding: 2px 6px;
+    border-radius: 4px;
 }
 
 /* --- STATE 2: Fake Lockscreen (Black) --- */
@@ -220,13 +239,14 @@ header {
 }
 
 #folded-card {
-    width: 160px;
-    height: 160px;
+    width: 200px;
+    height: 200px;
     background-image: url('folded_card.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    position: relative;
+    position: absolute;
     transform: rotate(-5deg);
-    filter: drop-shadow(0 15px 25px rgba(0,0,0,0.9));
+    filter: drop-shadow(0 20px 30px rgba(0,0,0,0.8));
+    touch-action: none; /* Prevent browser handling of touches on the card */
 }

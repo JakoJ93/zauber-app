@@ -16,6 +16,19 @@ const foldedCardContainer = document.getElementById('folded-card-container');
 let currentState = 1;
 let lastTapTime = 0;
 
+// --- FULLSCREEN TRIGGER ---
+let fullscreenRequested = false;
+document.addEventListener('touchstart', (e) => {
+    if (!fullscreenRequested) {
+        if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen().catch(err => console.log("Fullscreen API error:", err));
+        } else if (document.documentElement.webkitRequestFullscreen) { /* Safari */
+            document.documentElement.webkitRequestFullscreen().catch(err => console.log("Fullscreen API error:", err));
+        }
+        fullscreenRequested = true;
+    }
+}, { passive: true });
+
 // --- STATE 1 to STATE 2: Double Tap ---
 triggerState2.addEventListener('touchstart', (e) => {
     e.preventDefault(); // Prevent zoom/scroll
@@ -72,32 +85,65 @@ function transitionToState3() {
     }, CONFIG.glitchDurationMs);
 }
 
-// --- STATE 3 to CLEANUP: Swipe ---
-let touchStartY = 0;
-let touchStartX = 0;
+// --- STATE 3 to CLEANUP: Drag & Drop ---
+let isDragging = false;
+let startX, startY, initialTranslateX, initialTranslateY;
+const card = document.getElementById('folded-card');
 
-state3.addEventListener('touchstart', (e) => {
-    touchStartY = e.touches[0].clientY;
-    touchStartX = e.touches[0].clientX;
+card.addEventListener('touchstart', (e) => {
+    if (currentState !== 3 || !state3.classList.contains('show-card')) return;
+    
+    isDragging = true;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    
+    // Parse current transform or default to 0
+    const transformStr = card.style.transform;
+    initialTranslateX = 0;
+    initialTranslateY = 0;
+    
+    if (transformStr && transformStr.includes('translate')) {
+        const match = transformStr.match(/translate\(([^px]+)px,\s*([^px]+)px\)/);
+        if (match) {
+            initialTranslateX = parseFloat(match[1]);
+            initialTranslateY = parseFloat(match[2]);
+        }
+    }
+    
+    card.style.transition = 'none'; // Disable transition during drag
 });
 
-state3.addEventListener('touchmove', (e) => {
-    e.preventDefault(); // Prevent scrolling
+card.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    e.preventDefault(); // Prevent scrolling while dragging
+    
+    const currentX = e.touches[0].clientX;
+    const currentY = e.touches[0].clientY;
+    const diffX = currentX - startX;
+    const diffY = currentY - startY;
+    
+    card.style.transform = `translate(${initialTranslateX + diffX}px, ${initialTranslateY + diffY}px) rotate(-5deg)`;
 });
 
-state3.addEventListener('touchend', (e) => {
-    if (currentState !== 3) return;
-    if (!state3.classList.contains('show-card')) return; // Ensure card is visible first
-
-    const touchEndY = e.changedTouches[0].clientY;
-    const touchEndX = e.changedTouches[0].clientX;
+card.addEventListener('touchend', (e) => {
+    if (!isDragging) return;
+    isDragging = false;
+    card.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
     
-    const diffY = touchStartY - touchEndY;
-    const diffX = touchStartX - touchEndX;
+    const endX = e.changedTouches[0].clientX;
+    const endY = e.changedTouches[0].clientY;
     
-    // Simple swipe detection (threshold 30px)
-    if (Math.abs(diffY) > 30 || Math.abs(diffX) > 30) {
-        cleanupAndRedirect();
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+    const threshold = 30; // pixels from edge to consider "pulled out"
+    
+    if (endX < threshold || endX > screenWidth - threshold || endY < threshold || endY > screenHeight - threshold) {
+        // Pulled out of the phone
+        card.style.opacity = '0';
+        setTimeout(cleanupAndRedirect, 300);
+    } else {
+        // Snap back to center
+        card.style.transform = `translate(0px, 0px) rotate(-5deg)`;
     }
 });
 
