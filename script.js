@@ -49,11 +49,11 @@ function transitionToState2() {
     state2.classList.remove('hidden');
     state2.classList.add('active');
     
-    // Trigger Glitch Animation on state 2 overlay
-    state2.classList.add('glitch-active');
+    // Trigger Glitch Animation on state 1 (Google UI)
+    state1.classList.add('glitch-active');
     
     setTimeout(() => {
-        state2.classList.remove('glitch-active');
+        state1.classList.remove('glitch-active');
         // Show folded card
         state2.classList.add('show-card');
     }, CONFIG.glitchDurationMs);
@@ -69,6 +69,8 @@ card.addEventListener('touchstart', (e) => {
     
     isDragging = true;
     card.classList.add('dragging');
+    // Block scrolling of the underlying google search while dragging
+    state1.style.overflowY = 'hidden';
     startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
     
@@ -103,6 +105,7 @@ card.addEventListener('touchend', (e) => {
     if (!isDragging) return;
     isDragging = false;
     card.classList.remove('dragging');
+    state1.style.overflowY = 'auto';
     
     const endX = e.changedTouches[0].clientX;
     const endY = e.changedTouches[0].clientY;

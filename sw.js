@@ -1,4 +1,4 @@
-const CACHE_NAME = 'spielkarte-v1';
+const CACHE_NAME = 'spielkarte-v2';
 const urlsToCache = [
   './',
   './index.html',
